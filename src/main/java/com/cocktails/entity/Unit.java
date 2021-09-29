@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="unit")
@@ -18,4 +20,15 @@ public class Unit {
 
     @Column(name = "unit")
     private String unit;
+
+//    @ManyToMany(fetch=FetchType.LAZY,
+//            cascade = {CascadeType.PERSIST, CascadeType.MERGE,
+//                    CascadeType.DETACH, CascadeType.REFRESH})
+//    @JoinTable(name="recipe_ingredient",
+//            joinColumns = @JoinColumn(name="unit_id"),
+//            inverseJoinColumns = @JoinColumn(name="recipe_id"))
+//    private List<Recipe> recipes;
+//
+//    @OneToMany(cascade = CascadeType.ALL, mappedBy = "units")
+//    private Set<RecipeIngredient> recipeIngredients;
 }

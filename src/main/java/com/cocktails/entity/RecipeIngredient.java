@@ -16,18 +16,27 @@ public class RecipeIngredient {
     @Column(name = "recipe_ingredient_id")
     private Long recipeIngredientId;
 
-//    @Column(name = "recipe_id")
-//    private Long recipeId;
     @ManyToOne
     @JoinColumn(name="recipe_id", nullable = false)
-    private Recipe recipe;
+    private Recipe recipes;
 
-    @Column(name = "ingredient_id")
-    private Long ingredientId;
-
-    @Column(name = "unit_id")
-    private Long unitId;
+    @ManyToOne
+    @JoinColumn(name="ingredient_id", nullable = false)
+    private Ingredient ingredients;
 
     @Column(name = "amount")
     private Double amount;
+
+//    @ManyToOne
+//    @JoinColumn(name="unit_id", nullable = false)
+//    private Unit units;
+//
+//    @ManyToMany
+//    @JoinColumn(name="ingredient_id", nullable = false)
+//    private Ingredient ingredient;
+//    @Column(name = "ingredient_id")
+//    private Long ingredientId;
+//
+//    @Column(name = "unit_id")
+//    private Long unitId;
 }

@@ -10,5 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @CrossOrigin("http://localhost:4200")
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    Page<Recipe> findByBaseId(@RequestParam("id") Long id, Pageable pageable);
+    // finding recipes by keyword typed by user on frontend
+    Page<Recipe> findByRecipeContaining(@RequestParam("recipe") String recipe, Pageable pageable);
 }

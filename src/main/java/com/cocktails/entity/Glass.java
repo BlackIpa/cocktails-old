@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name="glass")
@@ -18,4 +19,10 @@ public class Glass {
 
     @Column(name = "glass")
     private String glass;
+
+    @Column(name = "icon")
+    private String icon;
+
+//    @OneToOne(cascade = CascadeType.ALL, mappedBy = "recipe")
+//    private Recipe recipe;
 }
