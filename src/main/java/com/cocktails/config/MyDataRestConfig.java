@@ -34,7 +34,8 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(Recipe.class, config, theUnsupportedActions);
         disableHttpMethods(Ingredient.class, config, theUnsupportedActions);
         disableHttpMethods(Unit.class, config, theUnsupportedActions);
-        //disableHttpMethods(RecipeIngredient.class, config, theUnsupportedActions);
+        disableHttpMethods(RecipeIngredient.class, config, theUnsupportedActions);
+        disableHttpMethods(Glass.class, config, theUnsupportedActions);
 
         //call an internal helper method to expose ids
         exposeIds(config);

@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Set;
 
 @Entity
 @Table(name="glass")
@@ -18,7 +17,7 @@ public class Glass {
     private Long glassId;
 
     @Column(name = "glass")
-    private String glass;
+    private String name;
 
     @Column(name = "icon")
     private String icon;

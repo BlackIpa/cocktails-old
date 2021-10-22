@@ -1,5 +1,6 @@
 package com.cocktails.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,6 +19,7 @@ public class RecipeIngredient {
 
     @ManyToOne
     @JoinColumn(name="recipe_id", nullable = false)
+    @JsonIgnore
     private Recipe recipes;
 
     @ManyToOne
@@ -27,16 +29,7 @@ public class RecipeIngredient {
     @Column(name = "amount")
     private Double amount;
 
-//    @ManyToOne
-//    @JoinColumn(name="unit_id", nullable = false)
-//    private Unit units;
-//
-//    @ManyToMany
-//    @JoinColumn(name="ingredient_id", nullable = false)
-//    private Ingredient ingredient;
-//    @Column(name = "ingredient_id")
-//    private Long ingredientId;
-//
-//    @Column(name = "unit_id")
-//    private Long unitId;
+    @ManyToOne
+    @JoinColumn(name="unit_id", nullable = false)
+    private Unit units;
 }
