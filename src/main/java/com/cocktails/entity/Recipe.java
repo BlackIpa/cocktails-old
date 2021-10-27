@@ -2,6 +2,7 @@ package com.cocktails.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -10,6 +11,7 @@ import java.util.Set;
 @Table(name="recipe")
 @Getter
 @Setter
+@ToString
 public class Recipe {
 
     @Id
@@ -41,4 +43,8 @@ public class Recipe {
 
     @OneToMany(mappedBy = "recipes")
     private Set<RecipeIngredient> recipeIngredients;
+
+    public Recipe() {
+
+    }
 }

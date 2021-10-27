@@ -3,12 +3,8 @@ package com.cocktails.rest;
 import com.cocktails.entity.Recipe;
 import com.cocktails.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -22,21 +18,51 @@ public class RecipeRestController {
     }
 
     @GetMapping("/recipes")
-    public List<Recipe> findAll() {
-        System.out.println("We're in: RecieRestController");
-        return recipeService.findAll();
+    public Page<Recipe> findAll(@RequestParam(required = false) String name,
+                                @RequestParam(defaultValue = "0") int page,
+                                @RequestParam(defaultValue = "4") int size) {
+        System.out.println("We're in: RecipeRestController findAll method");
+
+//        try {
+            if (name == null) {
+                return recipeService.findAll(page, size);
+            }
+            else {
+                return recipeService.findByNameContaining(name, page, size);
+            }
+//        }
+//        catch (Exception e) {
+//            return new
+//        }
     }
 
     @GetMapping("/recipes/{recipeId}")
     public Recipe getRecipe(@PathVariable Long recipeId) {
+        System.out.println("We're in: RecipeRestController findAll method");
 
         Recipe theRecipe = recipeService.findById(recipeId);
-
-        if (theRecipe == null) {
-            throw new RuntimeException("Employee id not found - " + recipeId);
-        }
-
         return theRecipe;
     }
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
