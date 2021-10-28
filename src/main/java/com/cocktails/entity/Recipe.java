@@ -44,6 +44,9 @@ public class Recipe {
     @OneToMany(mappedBy = "recipes")
     private Set<RecipeIngredient> recipeIngredients;
 
+    @ManyToMany(mappedBy = "favouriteRecipes")
+    Set<User> userFavourite;
+
     public Recipe() {
 
     }

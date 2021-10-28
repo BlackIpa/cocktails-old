@@ -10,14 +10,14 @@ public class RecipeRestExceptionHandler {
 
     // Add an exception handler for not found recipes
     @ExceptionHandler
-    public ResponseEntity<RecipeErrorResponse> handleException(RecipeNotFoundException e) {
+    public ResponseEntity<RecipeErrorResponse> handleException(RecipeNotFoundException exc) {
 
         // create a RecipeErrorResponse
 
         RecipeErrorResponse error = new RecipeErrorResponse();
 
         error.setStatus(HttpStatus.NOT_FOUND.value());
-        error.setMessage(e.getMessage());
+        error.setMessage(exc.getMessage());
         error.setTimeStamp(System.currentTimeMillis());
 
         // return ResponseEntity
@@ -27,13 +27,13 @@ public class RecipeRestExceptionHandler {
     // Add exception handler to catch any exception
 
     @ExceptionHandler
-    public ResponseEntity<RecipeErrorResponse> handleException(Exception e) {
+    public ResponseEntity<RecipeErrorResponse> handleException(Exception exc) {
 
         // create RecipeErrorResponse
         RecipeErrorResponse error = new RecipeErrorResponse();
 
         error.setStatus(HttpStatus.BAD_REQUEST.value());
-        error.setMessage(e.getMessage());
+        error.setMessage(exc.getMessage());
         error.setTimeStamp(System.currentTimeMillis());
 
         // return ResponseEntity
