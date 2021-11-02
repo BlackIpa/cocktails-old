@@ -23,11 +23,13 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Page<Recipe> findAll(int page, int size) {
+    public List<Recipe> findAll() {
+//    public List<Recipe> findAll(int page, int size) {
         System.out.println("We're in: RecipeService findAll method");
-        Pageable paging = PageRequest.of(page, size);
+//        Pageable paging = PageRequest.of(page, size);
 
-        return recipeRepository.findAllByOrderByNameAsc(paging);
+        return recipeRepository.findAllByOrderByNameAsc();
+//        return recipeRepository.findAllByOrderByNameAsc(paging);
     }
 
     @Override
@@ -47,10 +49,17 @@ public class RecipeServiceImpl implements RecipeService {
         return theRecipe;
     }
 
+//    @Override
+//    public List<Recipe> findUserFavourites() {
+//        return recipeRepository.findUserFavourites();
+//    }
+
     @Override
-    public Page<Recipe> findByNameContaining(String name, int page, int size) {
-        System.out.println("We're in: RecipeService findhByNameLike method");
-        Pageable paging = PageRequest.of(page, size);
-        return recipeRepository.findByNameContaining(name, paging);
+//    public Page<Recipe> findByNameContaining(String name, int page, int size) {
+    public List<Recipe> findByNameContaining(String name) {
+        System.out.println("We're in: RecipeService findByNameLike method");
+//        Pageable paging = PageRequest.of(page, size);
+        return recipeRepository.findByNameContaining(name);
+//        return recipeRepository.findByNameContaining(name, paging);
     }
 }

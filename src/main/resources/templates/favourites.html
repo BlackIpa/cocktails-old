@@ -10,27 +10,19 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col" th:each="recipe: ${recipes}">
                     <div class="card shadow-sm">
-                        <a th:href="@{/recipes/{id}(id = ${recipe.recipeId})}">
+                        <a th:href="@{/recipes/{recipeId}(recipeId = ${recipe.recipeId})}">
                             <img th:src="${recipe.photo}" alt="Cocktail" width="100%" height="225" />
                         </a>
                         <div class="card-body">
                             <a th:href="@{/recipes/{id}(id = ${recipe.recipeId})}">
                                 <p th:text="${recipe.name}" class="card-text text-center"></p>
                             </a>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-<!--                                    <a th:href="@{/addToFavourites/{id}(id = ${recipe.recipeId})}" role="button"-->
-<!--                                       class="btn btn-sm btn-outline-secondary">Fav</a>-->
-                                    <button type="button" class="btn btn-sm btn-outline-secondary">Fav</button>
-                                </div>
-                                <small class="text-muted">9 mins</small>
-                            </div>
                         </div>
                     </div>
                 </div>
                 <!-- if products empty the display a message -->
                 <div th:if="${#lists.isEmpty(recipes)}" class="alert alert-warning col-md-12" role="alert">
-                    No cocktails found.
+                    No favourite cocktails.
                 </div>
             </div>
         </div>

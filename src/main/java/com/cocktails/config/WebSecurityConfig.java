@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -35,23 +36,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
-
+    
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                //.antMatchers("/users").authenticated()
+                .antMatchers("/users","/account","/favourites").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
-                    .usernameParameter("email")
-                    .defaultSuccessUrl("/users")
-                    .permitAll()
-                .and()
-                .logout().logoutSuccessUrl("/").permitAll();
+            	.loginPage("/login")
+            	.usernameParameter("email")
+                .defaultSuccessUrl("/recipes", true)
+                .failureUrl("/login.html?error=true")
+                .permitAll()
+		        .and()
+				.exceptionHandling().accessDeniedPage("/access-denied");
     }
+    
+//	@Override
+//	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//
+//		// use jdbc authentication	
+//		auth.jdbcAuthentication().dataSource(dataSource);
+//		
+//	}
 }
 
 

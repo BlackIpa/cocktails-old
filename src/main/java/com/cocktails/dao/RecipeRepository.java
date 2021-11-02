@@ -6,11 +6,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface RecipeRepository extends JpaRepository<Recipe, Long> {
 
-    Page<Recipe> findAllByOrderByNameAsc(Pageable pageable);
+    List<Recipe> findAllByOrderByNameAsc();
+//    Page<Recipe> findAllByOrderByNameAsc(Pageable pageable);
 
     // finding recipes by keyword typed by user on frontend
     @Query(value = "SELECT r FROM Recipe r WHERE r.name LIKE %:name%")
-    Page<Recipe> findByNameContaining(String name, Pageable pageable);
+    List<Recipe> findByNameContaining(String name);
+//    Page<Recipe> findByNameContaining(String name, Pageable pageable);
+
+//    @Query("SELECT r.name FROM Recipe r JOIN User u")
+//    public List<Recipe> findUserFavourites();
+
 }

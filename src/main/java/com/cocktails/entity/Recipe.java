@@ -1,10 +1,12 @@
 package com.cocktails.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Entity
@@ -44,8 +46,13 @@ public class Recipe {
     @OneToMany(mappedBy = "recipes")
     private Set<RecipeIngredient> recipeIngredients;
 
-    @ManyToMany(mappedBy = "favouriteRecipes")
-    Set<User> userFavourite;
+//    @ManyToMany(fetch = FetchType.LAZY)
+//    @JoinTable(
+//            name = "favourite",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "recipe_id")
+//    )
+//    Set<User> userFavourite;
 
     public Recipe() {
 

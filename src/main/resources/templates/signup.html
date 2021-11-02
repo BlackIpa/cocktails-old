@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments :: html_head">
+<head>
+<th:block th:insert="fragments :: html_head"></th:block>
 <!-- Custom styles for this template -->
-<link href="signin.css" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/signin.css}">
 </head>
 <body>
-<header th:replace="fragments :: navbar" />
+<header th:replace="fragments :: navbar"></header>
 <div class="container text-center mt-4">
     <main class="form-signin">
-        <form th:action="@{/process-signup}" th:object="${user}"
+        <form th:action="@{/processSignup}" th:object="${user}"
               method="post">
             <img class="mb-4" th:src="@{/images/whiskey-sour.png}" alt="" width="72" height="57">
             <h1 class="h3 mb-3 fw-normal">Create Account</h1>
@@ -24,13 +25,7 @@
                 <label for="floatingPassword">Password</label>
             </div>
 
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" value="remember-me"> Remember me
-                </label>
-            </div>
             <button class="w-100 btn btn-lg btn-primary" type="submit">Sign up</button>
-            <p class="mt-5 mb-3 text-muted">&copy; 2017–2021</p>
         </form>
     </main>
 </div>

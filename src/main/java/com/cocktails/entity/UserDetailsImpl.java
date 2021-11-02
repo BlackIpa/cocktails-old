@@ -4,6 +4,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 public class UserDetailsImpl implements UserDetails {
 
@@ -18,6 +20,10 @@ public class UserDetailsImpl implements UserDetails {
         return null;
     }
 
+    public Long getId() {
+        return user.getId();
+    }
+
     @Override
     public String getPassword() {
         return user.getPassword();
@@ -27,6 +33,14 @@ public class UserDetailsImpl implements UserDetails {
     public String getUsername() {
         return user.getEmail();
     }
+
+//    public Set<Recipe> getFavourites() {
+//        return user.getFavouriteRecipes();
+//    }
+//
+//    public void setFavouriteRecipes(Set<Recipe> favouriteRecipes) {
+//        user.favouriteRecipes = favouriteRecipes;
+//    }
 
     @Override
     public boolean isAccountNonExpired() {
@@ -47,6 +61,5 @@ public class UserDetailsImpl implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 
 }

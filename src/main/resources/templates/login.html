@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="fragments :: html_head"></th:block>
+<!-- Custom styles for this template -->
+<link rel="stylesheet" th:href="@{/css/signin.css}">
+</head>
+<body>
+	<header th:replace="fragments :: navbar"></header>
+	<div class="container text-center mt-4">
+		<main class="form-signin">
+			<form th:action="@{/login}" method="post">
+				<img class="mb-4" th:src="@{/images/whiskey-sour.png}" alt=""
+					width="72" height="57">
+				<h1 class="h3 mb-3 fw-normal">Sign In</h1>
+				<div th:if="${param.error}" class="alert alert-error">
+					Invalid credentials.
+					<p class="text-danger">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+				</div>
+				<div th:if="${param.logout}" class="alert alert-success">You
+					have been logged out.</div>
+				<div class="form-floating">
+					<input type="email" name="email" class="form-control"
+						id="floatingInput" placeholder="name@example.com" required /> <label
+						for="floatingInput">Email address</label>
+				</div>
+				<div class="form-floating">
+					<input type="password" name="password" class="form-control"
+						id="floatingPassword" placeholder="Password" required /> <label
+						for="floatingPassword">Password</label>
+				</div>
+
+				<div class="checkbox mb-3">
+					<label> <input type="checkbox" value="remember-me">
+						Remember me
+					</label>
+				</div>
+				<button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+			</form>
+		</main>
+	</div>
+</body>
+</html>

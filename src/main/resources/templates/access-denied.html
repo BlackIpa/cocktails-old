@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:insert="fragments :: html_head"></th:block>
+<!-- Custom styles for this template -->
+<link rel="stylesheet" th:href="@{/css/signin.css}">
+</head>
+<body>
+<header th:replace="fragments :: navbar"></header>
+<div class="container text-center mt-4">
+    <h2>Access Denied - You are not authorized to access this resource.</h2>
+    <hr>
+    <a th:href="@{/}">Back to Home Page</a>
+</div>
+</body>
+</html>
