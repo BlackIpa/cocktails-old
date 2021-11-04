@@ -59,8 +59,9 @@ public class UserController {
     @GetMapping("/account")
     public String viewUserDetails(Model model) {
         System.out.println("We're in UserController viewUserDetails method");
-        UserDetailsImpl user =
-                (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userRepository.getById(userDetails.getId());
 
         model.addAttribute("user", user);
 
@@ -70,11 +71,12 @@ public class UserController {
     @GetMapping("/favourites")
     public String getFavourites(Model model) {
         System.out.println("We're in UserController getFavourites method");
-        UserDetailsImpl user =
-                (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        Set<Recipe> recipes = user.getFavourites();
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-//        model.addAttribute("recipes", recipes);
+        User user = userRepository.getById(userDetails.getId());
+        Set<Recipe> recipes = user.getFavouriteRecipes();
+
+        model.addAttribute("recipes", recipes);
 
         return "favourites";
     }

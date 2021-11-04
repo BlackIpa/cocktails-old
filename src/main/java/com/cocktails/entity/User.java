@@ -20,13 +20,13 @@ public class User {
     @Column(name = "password", nullable = false, unique = true, length = 128)
     private String password;
 
-//    @ManyToMany(fetch = FetchType.EAGER)
-//            @JoinTable(
-//                    name = "favourite",
-//                    joinColumns = @JoinColumn(name = "user_id"),
-//                    inverseJoinColumns = @JoinColumn(name = "recipe_id")
-//            )
-//    Set<Recipe> favouriteRecipes;
+    @ManyToMany(fetch = FetchType.EAGER)
+            @JoinTable(
+                    name = "favourite",
+                    joinColumns = @JoinColumn(name = "user_id"),
+                    inverseJoinColumns = @JoinColumn(name = "recipe_id")
+            )
+    Set<Recipe> favouriteRecipes;
 
 	public Long getId() {
 		return id;
@@ -52,13 +52,22 @@ public class User {
 		this.password = password;
 	}
 
-//	public Set<Recipe> getFavouriteRecipes() {
-//		return favouriteRecipes;
-//	}
-//
-//	public void setFavouriteRecipes(Set<Recipe> favouriteRecipes) {
-//		this.favouriteRecipes = favouriteRecipes;
-//	}
+	@Override
+	public String toString() {
+		return "User{" +
+				"id=" + id +
+				", email='" + email + '\'' +
+				", password='" + password + '\'' +
+				'}';
+	}
+
+	public Set<Recipe> getFavouriteRecipes() {
+		return favouriteRecipes;
+	}
+
+	public void setFavouriteRecipes(Set<Recipe> favouriteRecipes) {
+		this.favouriteRecipes = favouriteRecipes;
+	}
 
 	// add a convenience method
 //    public void addRecipeToFavourites(Recipe recipe) {

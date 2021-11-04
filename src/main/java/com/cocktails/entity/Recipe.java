@@ -43,16 +43,16 @@ public class Recipe {
     @Column(name = "ice_glass")
     private boolean iceGlass;
 
-    @OneToMany(mappedBy = "recipes")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipes")
     private Set<RecipeIngredient> recipeIngredients;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name = "favourite",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-//    )
-//    Set<User> userFavourite;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "favourite",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id")
+    )
+    Set<User> userFavourite;
 
     public Recipe() {
 

@@ -6,7 +6,7 @@
 <header th:replace="fragments :: navbar" />
 <div class="container text-center">
     <div>
-        <h1>Welcome <b th:text="${user.getUsername()}"></b></h1>
+        <h1>Welcome <b th:text="${user.getEmail()}"></b></h1>
     </div>
 
     <div>
@@ -20,7 +20,7 @@
             <tbody>
             <tr>
                 <td th:text="${user.getId()}"></td>
-                <td th:text="${user.getUsername()}"></td>
+                <td th:text="${user.getEmail()}"></td>
             </tr>
             </tbody>
         </table>
