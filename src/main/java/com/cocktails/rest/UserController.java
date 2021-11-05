@@ -4,6 +4,7 @@ import com.cocktails.dao.UserRepository;
 import com.cocktails.entity.Recipe;
 import com.cocktails.entity.User;
 import com.cocktails.entity.UserDetailsImpl;
+import com.cocktails.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -13,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Set;
@@ -21,9 +23,14 @@ import java.util.Set;
 @RequestMapping("")
 public class UserController {
 
-    @Autowired
-    private UserRepository userRepository;
     private UserDetailsService userDetailsService;
+    private UserService userService;
+
+    @Autowired
+    public UserController(UserService userService, UserDetailsService userDetailsService) {
+        this.userService = userService;
+        this.userDetailsService = userDetailsService;
+    }
 
     @GetMapping("/signup")
     public String getRegistrationForm(Model model) {
@@ -34,18 +41,14 @@ public class UserController {
     @PostMapping("/processSignup")
     public String processSignup(User user) {
 
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String encodedPassword = passwordEncoder.encode(user.getPassword());
-        user.setPassword(encodedPassword);
-
-        userRepository.save(user);
+        userService.saveUser(user);
         return "signup-success";
     }
 
     @GetMapping("/users")
     public String getUsers(Model model) {
     	
-        List<User> users = userRepository.findAll();
+        List<User> users = userService.findAll();
         model.addAttribute("users", users);
         return "users";
     }
@@ -61,7 +64,7 @@ public class UserController {
         System.out.println("We're in UserController viewUserDetails method");
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User user = userRepository.getById(userDetails.getId());
+        User user = userService.findById(userDetails.getId());
 
         model.addAttribute("user", user);
 
@@ -73,11 +76,20 @@ public class UserController {
         System.out.println("We're in UserController getFavourites method");
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-        User user = userRepository.getById(userDetails.getId());
+        User user = userService.findById(userDetails.getId());
         Set<Recipe> recipes = user.getFavouriteRecipes();
 
         model.addAttribute("recipes", recipes);
 
         return "favourites";
+    }
+
+    @GetMapping("/addToFavourites")
+    public String addToFavourites(@RequestParam Long id) {
+        System.out.println("We're in UserController addToFavourites method");
+        System.out.println("Recipe id is: " + id);
+
+
+        return "recipes";
     }
 }

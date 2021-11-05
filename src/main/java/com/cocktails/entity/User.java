@@ -70,12 +70,9 @@ public class User {
 	}
 
 	// add a convenience method
-//    public void addRecipeToFavourites(Recipe recipe) {
-//
-//        if (favouriteRecipes == null) {
-//            favouriteRecipes = new ArrayList<>();
-//        }
-//
-//        favouriteRecipes.add(recipe);
-//    }
+    public void addRecipeToFavourites(Recipe recipe) {
+        favouriteRecipes.add(recipe);
+    }
+
+
 }

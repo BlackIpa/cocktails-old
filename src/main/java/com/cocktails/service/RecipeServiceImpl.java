@@ -49,11 +49,6 @@ public class RecipeServiceImpl implements RecipeService {
         return theRecipe;
     }
 
-//    @Override
-//    public List<Recipe> findUserFavourites() {
-//        return recipeRepository.findUserFavourites();
-//    }
-
     @Override
 //    public Page<Recipe> findByNameContaining(String name, int page, int size) {
     public List<Recipe> findByNameContaining(String name) {
