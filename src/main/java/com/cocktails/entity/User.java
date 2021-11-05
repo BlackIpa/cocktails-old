@@ -3,6 +3,7 @@ package com.cocktails.entity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -52,6 +53,14 @@ public class User {
 		this.password = password;
 	}
 
+	public Set<Recipe> getFavouriteRecipes() {
+		return favouriteRecipes;
+	}
+
+	public void setFavouriteRecipes(Set<Recipe> favouriteRecipes) {
+		this.favouriteRecipes = favouriteRecipes;
+	}
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -61,17 +70,16 @@ public class User {
 				'}';
 	}
 
-	public Set<Recipe> getFavouriteRecipes() {
-		return favouriteRecipes;
-	}
-
-	public void setFavouriteRecipes(Set<Recipe> favouriteRecipes) {
-		this.favouriteRecipes = favouriteRecipes;
-	}
-
 	// add a convenience method
     public void addRecipeToFavourites(Recipe recipe) {
-        favouriteRecipes.add(recipe);
+		System.out.println("We're in User entity, addRecipeToFavourites helper method");
+		System.out.println("Recipe is "  + recipe);
+s
+		if (favouriteRecipes == null) {
+			favouriteRecipes = new HashSet<>();
+		}
+
+		favouriteRecipes.add(recipe);
     }
 
 

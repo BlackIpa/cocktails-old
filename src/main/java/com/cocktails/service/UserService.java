@@ -1,5 +1,6 @@
 package com.cocktails.service;
 
+import com.cocktails.entity.Recipe;
 import com.cocktails.entity.User;
 
 import java.util.List;
@@ -11,4 +12,6 @@ public interface UserService {
     public User findById(Long theId);
 
     public void saveUser(User user);
+
+    public void addToFavourites(Recipe recipe, Long userId);
 }

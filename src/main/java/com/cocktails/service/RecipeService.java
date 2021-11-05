@@ -17,5 +17,4 @@ public interface RecipeService {
 
     public Recipe findById(Long theId);
 
-//    public List<Recipe> findUserFavourites();
 }

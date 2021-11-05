@@ -56,7 +56,7 @@ public class RecipeController {
                 List<Recipe> recipes = recipeService.findAll();
                 // add to the spring model
                 model.addAttribute("recipes", recipes);
-                System.out.println(recipes);
+
                 return "recipes";
             }
             else {
@@ -64,6 +64,7 @@ public class RecipeController {
 //                Page<Recipe> recipes = recipeService.findByNameContaining(name, page, size);
                 List<Recipe> recipes = recipeService.findByNameContaining(name);
                 model.addAttribute("recipes", recipes);
+
                 return "recipes";
             }
         }
@@ -82,19 +83,19 @@ public class RecipeController {
         return "recipe-detail";
     }
 
-    @GetMapping("/addToFavourites/{recipeId}")
-    public String addToFavourites(@PathVariable Long recipeId,
-                                  Authentication authentication) {
-        System.out.println("We're in: RecipeRestController addToFavourites method");
-
-        Recipe recipe = recipeService.findById(recipeId);
-        System.out.println("Recipe: " + recipe.getName());
-        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-        System.out.println("User: " + userDetails.getUsername());
-        System.out.println("User: " + userDetails.getId());
-
-        return "recipes";
-    }
+//    @GetMapping("/addToFavourites/{recipeId}")
+//    public String addToFavourites(@PathVariable Long recipeId,
+//                                  Authentication authentication) {
+//        System.out.println("We're in: RecipeRestController addToFavourites method");
+//
+//        Recipe recipe = recipeService.findById(recipeId);
+//        System.out.println("Recipe: " + recipe.getName());
+//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
+//        System.out.println("User: " + userDetails.getUsername());
+//        System.out.println("User: " + userDetails.getId());
+//
+//        return "recipes";
+//    }
 }
 
 

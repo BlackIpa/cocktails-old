@@ -1,6 +1,5 @@
 package com.cocktails.rest;
 
-import com.cocktails.dao.UserRepository;
 import com.cocktails.entity.Recipe;
 import com.cocktails.entity.User;
 import com.cocktails.entity.UserDetailsImpl;
@@ -8,13 +7,10 @@ import com.cocktails.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
@@ -84,11 +80,14 @@ public class UserController {
         return "favourites";
     }
 
-    @GetMapping("/addToFavourites")
-    public String addToFavourites(@RequestParam Long id) {
-        System.out.println("We're in UserController addToFavourites method");
-        System.out.println("Recipe id is: " + id);
+    @PostMapping("/addToFavourites")
+    public String addToFavourites(@ModelAttribute("recipe") Recipe recipe) {
 
+        System.out.println("We're in UserController addToFavourites method");
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        System.out.println("MODEL ATTRIBUTE RECIPE is " + recipe);
+        System.out.println("User id is: " + userDetails.getId());
+        userService.addToFavourites(recipe, userDetails.getId());
 
         return "recipes";
     }
