@@ -82,20 +82,6 @@ public class RecipeController {
         model.addAttribute("recipe", recipe);
         return "recipe-detail";
     }
-
-//    @GetMapping("/addToFavourites/{recipeId}")
-//    public String addToFavourites(@PathVariable Long recipeId,
-//                                  Authentication authentication) {
-//        System.out.println("We're in: RecipeRestController addToFavourites method");
-//
-//        Recipe recipe = recipeService.findById(recipeId);
-//        System.out.println("Recipe: " + recipe.getName());
-//        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-//        System.out.println("User: " + userDetails.getUsername());
-//        System.out.println("User: " + userDetails.getId());
-//
-//        return "recipes";
-//    }
 }
 
 

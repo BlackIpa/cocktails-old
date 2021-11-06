@@ -80,14 +80,15 @@ public class UserController {
         return "favourites";
     }
 
-    @PostMapping("/addToFavourites")
-    public String addToFavourites(@ModelAttribute("recipe") Recipe recipe) {
-
+    @PostMapping("/addToFavourites/{id}")
+    public String addToFavourites(@ModelAttribute("recipe") Recipe recipe, @PathVariable Long id) {
         System.out.println("We're in UserController addToFavourites method");
+
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println("MODEL ATTRIBUTE RECIPE is " + recipe);
+        System.out.println("Recipe id from PathVariable is: " + id);
+//        System.out.println("MODEL ATTRIBUTE RECIPE is " + recipe);
         System.out.println("User id is: " + userDetails.getId());
-        userService.addToFavourites(recipe, userDetails.getId());
+        userService.addToFavourites(id, userDetails.getId());
 
         return "recipes";
     }

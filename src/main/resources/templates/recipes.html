@@ -24,8 +24,10 @@
 <!--                                       class="btn btn-sm btn-outline-secondary">-->
 <!--                                        Fav-->
 <!--                                    </a>-->
-                                        <form action="#" th:action="@{/addToFavourites}"
+                                        <form action="#"
+                                              th:action="@{'/addToFavourites/{id}'(id = *{recipeId})}"
                                               th:object="${recipe}" method="POST">
+
                                             <button type="submit"
                                                     class="btn btn-sm btn-outline-secondary">Fav
                                             </button>

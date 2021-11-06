@@ -74,12 +74,21 @@ public class User {
     public void addRecipeToFavourites(Recipe recipe) {
 		System.out.println("We're in User entity, addRecipeToFavourites helper method");
 		System.out.println("Recipe is "  + recipe);
-s
+
 		if (favouriteRecipes == null) {
+			System.out.println("We're in if statement checking size of favouriteRecipes Set");
 			favouriteRecipes = new HashSet<>();
 		}
 
+		System.out.println("Farourites before add");
+		for (Recipe rec : favouriteRecipes) {
+			System.out.println(rec.getName());
+		}
 		favouriteRecipes.add(recipe);
+		System.out.println("Farourites after add");
+		for (Recipe rec : favouriteRecipes) {
+			System.out.println(rec.getName());
+		}
     }
 
 
