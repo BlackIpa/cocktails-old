@@ -71,23 +71,14 @@ public class User {
 	}
 
 	// add a convenience method
-    public void addRecipeToFavourites(Recipe recipe) {
+    public void toggleRecipeToFavourites(Recipe recipe) {
 		System.out.println("We're in User entity, addRecipeToFavourites helper method");
-		System.out.println("Recipe is "  + recipe);
 
-		if (favouriteRecipes == null) {
-			System.out.println("We're in if statement checking size of favouriteRecipes Set");
-			favouriteRecipes = new HashSet<>();
+		if (favouriteRecipes.contains(recipe)) {
+			favouriteRecipes.remove(recipe);
 		}
-
-		System.out.println("Farourites before add");
-		for (Recipe rec : favouriteRecipes) {
-			System.out.println(rec.getName());
-		}
-		favouriteRecipes.add(recipe);
-		System.out.println("Farourites after add");
-		for (Recipe rec : favouriteRecipes) {
-			System.out.println(rec.getName());
+		else {
+			favouriteRecipes.add(recipe);
 		}
     }
 

@@ -19,17 +19,13 @@
                             </a>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-<!--                                    <a th:href="@{/addToFavourites(id = ${recipe.recipeId})}"-->
-<!--                                       role="button"-->
-<!--                                       class="btn btn-sm btn-outline-secondary">-->
-<!--                                        Fav-->
-<!--                                    </a>-->
                                         <form action="#"
                                               th:action="@{'/addToFavourites/{id}'(id = *{recipeId})}"
                                               th:object="${recipe}" method="POST">
-
                                             <button type="submit"
-                                                    class="btn btn-sm btn-outline-secondary">Fav
+                                                    class="btn btn-sm btn-outline-secondary"
+                                                    th:classappend="${#lists.contains(favouriteIds,recipe.recipeId)} ? fav : unfav">
+                                                Fav
                                             </button>
                                         </form>
                                 </div>

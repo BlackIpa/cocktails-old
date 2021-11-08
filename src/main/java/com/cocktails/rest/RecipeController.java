@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.view.RedirectView;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,10 +26,13 @@ import java.util.Optional;
 public class RecipeController {
 
     private RecipeService recipeService;
+    private UserRepository userRepository;
+    private List<Long> userFavouriteRecipes = new ArrayList<Long>();
 
     @Autowired
-    public RecipeController(RecipeService recipeService) {
+    public RecipeController(RecipeService recipeService, UserRepository userRepository) {
         this.recipeService = recipeService;
+        this.userRepository = userRepository;
     }
 
     @GetMapping("")
@@ -48,7 +52,14 @@ public class RecipeController {
     public String findAll(@RequestParam(required = false) String name,
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "6") int size,
+                                Principal currentUser,
                                 Model model) {
+
+        if (currentUser != null) {
+            userFavouriteRecipes = getFavouriteRecipeIds();
+        }
+        System.out.println(userFavouriteRecipes);
+        model.addAttribute("favouriteIds", userFavouriteRecipes);
         try {
             if (name == null) {
                 System.out.println("We're in: RecipeRestController findAll method");
@@ -56,7 +67,6 @@ public class RecipeController {
                 List<Recipe> recipes = recipeService.findAll();
                 // add to the spring model
                 model.addAttribute("recipes", recipes);
-
                 return "recipes";
             }
             else {
@@ -81,6 +91,20 @@ public class RecipeController {
         System.out.println("Recipe " + recipe);
         model.addAttribute("recipe", recipe);
         return "recipe-detail";
+    }
+
+    public List<Long> getFavouriteRecipeIds() {
+        List<Long> list = new ArrayList<>();
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        User user = userRepository.getById(userDetails.getId());
+
+        for (Recipe rec : user.getFavouriteRecipes()) {
+            System.out.println(rec.getName());
+            list.add(rec.getRecipeId());
+        }
+        return list;
     }
 }
 
