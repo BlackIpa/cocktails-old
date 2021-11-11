@@ -27,7 +27,17 @@ public class User {
                     joinColumns = @JoinColumn(name = "user_id"),
                     inverseJoinColumns = @JoinColumn(name = "recipe_id")
             )
-    Set<Recipe> favouriteRecipes;
+	private Set<Recipe> favouriteRecipes;
+
+    @OneToMany(fetch = FetchType.EAGER)
+	@JoinTable(
+			name = "custom",
+			joinColumns = @JoinColumn(name = "user_id"),
+			inverseJoinColumns = @JoinColumn(name = "recipe_id")
+	)
+	private Set<Recipe> customRecipes;
+
+    // getters and setters
 
 	public Long getId() {
 		return id;
@@ -61,6 +71,16 @@ public class User {
 		this.favouriteRecipes = favouriteRecipes;
 	}
 
+	public Set<Recipe> getCustomRecipes() {
+		return customRecipes;
+	}
+
+	public void setCustomRecipes(Set<Recipe> customRecipes) {
+		this.customRecipes = customRecipes;
+	}
+
+	// to string
+
 	@Override
 	public String toString() {
 		return "User{" +
@@ -70,7 +90,7 @@ public class User {
 				'}';
 	}
 
-	// add a convenience method
+	// convenience method
     public void toggleRecipeToFavourites(Recipe recipe) {
 		System.out.println("We're in User entity, addRecipeToFavourites helper method");
 

@@ -1,16 +1,12 @@
 package com.cocktails.rest;
 
-import com.cocktails.dao.UserRepository;
 import com.cocktails.entity.Recipe;
 import com.cocktails.entity.User;
 import com.cocktails.entity.UserDetailsImpl;
 import com.cocktails.service.RecipeService;
+import com.cocktails.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,20 +15,21 @@ import org.springframework.web.servlet.view.RedirectView;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @RequestMapping
 public class RecipeController {
 
     private RecipeService recipeService;
-    private UserRepository userRepository;
+    private UserService userService;
     private List<Long> userFavouriteRecipes = new ArrayList<Long>();
 
     @Autowired
-    public RecipeController(RecipeService recipeService, UserRepository userRepository) {
+    public RecipeController(RecipeService recipeService,
+                            UserService userService) {
         this.recipeService = recipeService;
-        this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("")
@@ -98,13 +95,41 @@ public class RecipeController {
 
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        User user = userRepository.getById(userDetails.getId());
+        User user = userService.findById(userDetails.getId());
 
         for (Recipe rec : user.getFavouriteRecipes()) {
             System.out.println(rec.getName());
             list.add(rec.getRecipeId());
         }
         return list;
+    }
+
+    @GetMapping("/favourites")
+    public String getFavourites(Model model) {
+        System.out.println("We're in UserController getFavourites method");
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        User user = userService.findById(userDetails.getId());
+        Set<Recipe> recipes = user.getFavouriteRecipes();
+
+        model.addAttribute("recipes", recipes);
+
+        return "favourites";
+    }
+
+    @GetMapping("/custom")
+    public String getCustomRecipes (Model model) {
+
+        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        User user = userService.findById(userDetails.getId());
+
+        Set<Recipe> recipes = user.getCustomRecipes();
+        model.addAttribute("recipes", recipes);
+
+        System.out.println("We're in: RecipeRestController getCustomRecipes method");
+        return "custom";
     }
 }
 

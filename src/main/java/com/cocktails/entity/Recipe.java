@@ -43,17 +43,17 @@ public class Recipe {
     @Column(name = "ice_glass")
     private boolean iceGlass;
 
+    @Column(name = "user_created")
+    private boolean userCreated;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipes")
     private Set<RecipeIngredient> recipeIngredients;
 
-//    @ManyToMany(fetch = FetchType.LAZY)
-//    @JoinTable(
-//            name = "favourite",
-//            joinColumns = @JoinColumn(name = "user_id"),
-//            inverseJoinColumns = @JoinColumn(name = "recipe_id")
-//    )
     @ManyToMany(mappedBy = "favouriteRecipes")
     Set<User> userFavourite;
+
+//    @ManyToOne
+//    User userCustom;
 
     public Recipe() {
 

@@ -9,11 +9,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @Controller
 @RequestMapping("")
@@ -66,20 +64,6 @@ public class UserController {
         model.addAttribute("user", user);
 
         return "account";
-    }
-
-    @GetMapping("/favourites")
-    public String getFavourites(Model model) {
-        System.out.println("We're in UserController getFavourites method");
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-
-        User user = userService.findById(userDetails.getId());
-        Set<Recipe> recipes = user.getFavouriteRecipes();
-
-        model.addAttribute("recipes", recipes);
-
-        return "favourites";
     }
 
     @PostMapping("/addToFavourites/{id}")
