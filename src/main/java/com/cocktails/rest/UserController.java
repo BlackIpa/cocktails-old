@@ -67,7 +67,7 @@ public class UserController {
     }
 
     @PostMapping("/addToFavourites/{id}")
-    public String addToFavourites(@ModelAttribute("recipe") Recipe recipe, @PathVariable Long id) {
+    public String toggleToFavourites(@ModelAttribute("recipe") Recipe recipe, @PathVariable Long id) {
         System.out.println("We're in UserController addToFavourites method");
 
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()

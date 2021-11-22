@@ -49,6 +49,7 @@ public class RecipeServiceImpl implements RecipeService {
         return theRecipe;
     }
 
+
     @Override
 //    public Page<Recipe> findByNameContaining(String name, int page, int size) {
     public List<Recipe> findByNameContaining(String name) {
@@ -57,4 +58,11 @@ public class RecipeServiceImpl implements RecipeService {
         return recipeRepository.findByNameContaining(name);
 //        return recipeRepository.findByNameContaining(name, paging);
     }
+
+    @Override
+    public void save(Recipe recipe) {
+        System.out.println("We're in: RecipeService save method");
+        recipeRepository.save(recipe);
+    }
+
 }

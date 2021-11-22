@@ -7,11 +7,10 @@
 <main>
     <div class="album py-5">
         <div class="container">
-            <div class="row">
-                <a th:href="@{/create-custom}">
-                    <p class="card-text text-center">Create cocktail</p>
-                </a>
-            </div>
+            <a th:href="@{/create-cocktail}"
+                class="btn btn-primary btn-sm mb-3">
+                Create cocktail
+            </a>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div class="col" th:each="recipe: ${recipes}" th:object="${recipe}">
                     <div class="card shadow-sm">
@@ -36,6 +35,9 @@
                                 </div>
                                 <small class="text-muted">9 mins</small>
                             </div>
+                            <a th:href="@{/edit-cocktail/{id}(id = *{recipeId})}">
+                                <p class="card-text text-center">Edit Cocktail</p>
+                            </a>
                         </div>
                     </div>
                 </div>

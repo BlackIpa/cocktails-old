@@ -18,7 +18,4 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long> {
     List<Recipe> findByNameContaining(String name);
 //    Page<Recipe> findByNameContaining(String name, Pageable pageable);
 
-//    @Query("SELECT r.name FROM Recipe r JOIN User u")
-//    public List<Recipe> findUserFavourites();
-
 }

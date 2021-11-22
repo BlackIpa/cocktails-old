@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments :: html_head">
+</head>
+<body>
+<header th:replace="fragments :: navbar" />
+<main>
+    <div class="container text-center justify-content-center">
+        <p class="h4 mb-4 mt-4">Create Cocktail</p>
+            <form action="#" th:action="@{/save-cocktail}"
+                  th:object="${recipe}" method="POST">
+
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <input type="text" th:field="*{name}"
+                               class="form-control mb-4 col-4" placeholder="Recipe name">
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-4">
+                        <select th:field="*{recipeIngredients}" name="ingredient"
+                                class="form-select col-4 mb-4"
+                                aria-label="Default select example">
+                            <option th:each="ingredient : ${ingredients}"
+                                    th:value="${ingredient.ingredientId}"
+                                    th:text="${ingredient.name}"></option>
+                        </select>
+                    </div>
+                    <div class="col-2">
+                    <input type="number" th:field="*{glassId}"
+                           class="form-control mb-4" placeholder="Amount">
+                    </div>
+                </div>
+
+                <div class="row w-50 justify-content-center mx-auto">
+                    <div class="col col-md-3">
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" th:field="*{iceMixing}"
+                                   value="" id="mixingIce">
+                            <label class="form-check-label" th:for="${#ids.next('iceMixing')}">
+                                Mixing ice
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col col-md-3">
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" th:field="*{iceGlass}"
+                                   value="" id="glassIce">
+                            <label class="form-check-label" th:for="${#ids.next('iceGlass')}">
+                                Glass ice
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-6">
+                        <textarea type="text" th:field="*{instruction}" rows="3"
+                                  class="form-control mb-4 col-4" placeholder="Instruction"></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm mb-3">Save</button>
+
+            </form>
+        <hr>
+        <a th:href="@{/recipes}" class="btn btn-primary btn-sm mb-3">Back to Recipe List</a>
+
+    </div>
+</main>
+<div th:replace="fragments :: pagination"></div>
+</body>
+</html>

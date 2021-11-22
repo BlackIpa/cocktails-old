@@ -1,5 +1,7 @@
 package com.cocktails.rest;
 
+import com.cocktails.dao.IngredientRepository;
+import com.cocktails.entity.Ingredient;
 import com.cocktails.entity.Recipe;
 import com.cocktails.entity.User;
 import com.cocktails.entity.UserDetailsImpl;
@@ -23,13 +25,16 @@ public class RecipeController {
 
     private RecipeService recipeService;
     private UserService userService;
+    private IngredientRepository ingredientRepository;
     private List<Long> userFavouriteRecipes = new ArrayList<Long>();
 
     @Autowired
     public RecipeController(RecipeService recipeService,
-                            UserService userService) {
+                            UserService userService,
+                            IngredientRepository ingredientRepository) {
         this.recipeService = recipeService;
         this.userService = userService;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @GetMapping("")
@@ -46,7 +51,7 @@ public class RecipeController {
     }
 
     @GetMapping("/recipes")
-    public String findAll(@RequestParam(required = false) String name,
+    public String findRecipes(@RequestParam(required = false) String name,
                                 @RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "6") int size,
                                 Principal currentUser,
@@ -106,7 +111,7 @@ public class RecipeController {
 
     @GetMapping("/favourites")
     public String getFavourites(Model model) {
-        System.out.println("We're in UserController getFavourites method");
+        System.out.println("We're in RecipeController getFavourites method");
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
 
@@ -120,7 +125,7 @@ public class RecipeController {
 
     @GetMapping("/custom")
     public String getCustomRecipes (Model model) {
-
+        System.out.println("We're in RecipeController getCustomRecipes method");
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         User user = userService.findById(userDetails.getId());
@@ -130,6 +135,49 @@ public class RecipeController {
 
         System.out.println("We're in: RecipeRestController getCustomRecipes method");
         return "custom";
+    }
+
+    @GetMapping("/create-cocktail")
+    public String showFormForCocktailCreation(Model model) {
+        System.out.println("We're in RecipeController showFormForCocktailCreation method");
+        Recipe recipe = new Recipe();
+        List<Ingredient> ingredients = ingredientRepository.findAllByOrderByNameAsc();
+
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("ingredients", ingredients);
+
+        return "cocktail-form";
+    }
+
+    @PostMapping("/save-cocktail")
+    public String saveCocktail(@ModelAttribute("recipe") Recipe recipe,
+                               @ModelAttribute("ingredients") Ingredient ingredients) {
+        System.out.println("We're in RecipeController saveCocktail method");
+
+        recipe.setUserCreated(true);
+        recipe.setPhoto("/images/old-fashioned.png");
+        recipe.setGlassId(1L);
+//        recipe.getRecipeIngredients();
+
+
+        System.out.println(recipe);
+        System.out.println(recipe.getRecipeIngredients());
+
+        recipeService.save(recipe);
+        return "redirect:/custom";
+    }
+
+    @GetMapping("/edit-cocktail/{id}")
+    public String showFormForCocktailEdit(@PathVariable Long id, Model model) {
+        System.out.println("We're in RecipeController showFormForCocktailEdit method");
+        Recipe recipe = recipeService.findById(id);
+        List<Ingredient> ingredients = ingredientRepository.findAllByOrderByNameAsc();
+
+        System.out.println("Recipe " + recipe);
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("ingredients", ingredients);
+
+        return "edit-cocktail-form";
     }
 }
 
