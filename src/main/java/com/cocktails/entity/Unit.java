@@ -19,7 +19,7 @@ public class Unit {
     private Long unitId;
 
     @Column(name = "unit")
-    private String unit;
+    private String name;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "units")
     @JsonIgnore

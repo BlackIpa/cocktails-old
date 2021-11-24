@@ -1,10 +1,11 @@
-package com.cocktails.rest;
+package com.cocktails.controller;
 
 import com.cocktails.dao.IngredientRepository;
-import com.cocktails.entity.Ingredient;
-import com.cocktails.entity.Recipe;
-import com.cocktails.entity.User;
-import com.cocktails.entity.UserDetailsImpl;
+import com.cocktails.dao.UnitRepository;
+import com.cocktails.dto.RecipeDTO;
+import com.cocktails.entity.*;
+import com.cocktails.service.RecipeIngredientService;
+import com.cocktails.service.RecipeMapper;
 import com.cocktails.service.RecipeService;
 import com.cocktails.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,15 +27,24 @@ public class RecipeController {
     private RecipeService recipeService;
     private UserService userService;
     private IngredientRepository ingredientRepository;
+    private RecipeIngredientService recipeIngredientService;
+    private UnitRepository unitRepository;
     private List<Long> userFavouriteRecipes = new ArrayList<Long>();
+    private RecipeMapper recipeMapper;
 
     @Autowired
     public RecipeController(RecipeService recipeService,
                             UserService userService,
-                            IngredientRepository ingredientRepository) {
+                            IngredientRepository ingredientRepository,
+                            RecipeIngredientService recipeIngredientService,
+                            UnitRepository unitRepository,
+                            RecipeMapper recipeMapper) {
         this.recipeService = recipeService;
         this.userService = userService;
         this.ingredientRepository = ingredientRepository;
+        this.recipeIngredientService = recipeIngredientService;
+        this.unitRepository = unitRepository;
+        this.recipeMapper = recipeMapper;
     }
 
     @GetMapping("")
@@ -140,30 +150,47 @@ public class RecipeController {
     @GetMapping("/create-cocktail")
     public String showFormForCocktailCreation(Model model) {
         System.out.println("We're in RecipeController showFormForCocktailCreation method");
-        Recipe recipe = new Recipe();
+        RecipeDTO recipeDTO = new RecipeDTO();
         List<Ingredient> ingredients = ingredientRepository.findAllByOrderByNameAsc();
+        List<Unit> units = unitRepository.findAllByOrderByNameAsc();
 
-        model.addAttribute("recipe", recipe);
+        model.addAttribute("recipeDTO", recipeDTO);
         model.addAttribute("ingredients", ingredients);
+        model.addAttribute("units", units);
 
         return "cocktail-form";
     }
 
     @PostMapping("/save-cocktail")
-    public String saveCocktail(@ModelAttribute("recipe") Recipe recipe,
-                               @ModelAttribute("ingredients") Ingredient ingredients) {
+    public String saveCocktail(@ModelAttribute("recipe") RecipeDTO recipeDTO) {
         System.out.println("We're in RecipeController saveCocktail method");
 
-        recipe.setUserCreated(true);
-        recipe.setPhoto("/images/old-fashioned.png");
-        recipe.setGlassId(1L);
-//        recipe.getRecipeIngredients();
+        recipeDTO.setGlassId(1L);
 
+        System.out.println(recipeDTO);
+
+        for (Ingredient ing : recipeDTO.getIngredients()) {
+            System.out.println("Ingredient name: "  + ing.getName() + ", Ingredient kind: "  + ing.getKind());
+        }
+        for (Double amount : recipeDTO.getAmounts()) {
+            System.out.println("Amount is: "  + amount);
+        }
+        for (Unit unit : recipeDTO.getUnits()) {
+            System.out.println("Unit is: "  + unit.getName());
+        }
+
+        Recipe recipe = recipeMapper.toRecipe(recipeDTO);
 
         System.out.println(recipe);
-        System.out.println(recipe.getRecipeIngredients());
 
         recipeService.save(recipe);
+
+        for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
+            System.out.println(recipeIngredient);
+            recipeIngredient.setRecipes(recipe);
+//            recipeIngredientService.save(recipeIngredient);
+        }
+
         return "redirect:/custom";
     }
 

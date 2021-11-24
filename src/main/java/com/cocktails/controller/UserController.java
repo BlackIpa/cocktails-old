@@ -1,4 +1,4 @@
-package com.cocktails.rest;
+package com.cocktails.controller;
 
 import com.cocktails.entity.Recipe;
 import com.cocktails.entity.User;

@@ -1,4 +1,4 @@
-package com.cocktails.rest;
+package com.cocktails.controller;
 
 public class RecipeNotFoundException extends RuntimeException {
 

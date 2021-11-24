@@ -1,4 +1,4 @@
-package com.cocktails.rest;
+package com.cocktails.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
