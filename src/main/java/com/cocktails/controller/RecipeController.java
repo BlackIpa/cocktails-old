@@ -185,12 +185,6 @@ public class RecipeController {
 
         recipeService.save(recipe);
 
-        for (RecipeIngredient recipeIngredient : recipe.getRecipeIngredients()) {
-            System.out.println(recipeIngredient);
-            recipeIngredient.setRecipes(recipe);
-//            recipeIngredientService.save(recipeIngredient);
-        }
-
         return "redirect:/custom";
     }
 

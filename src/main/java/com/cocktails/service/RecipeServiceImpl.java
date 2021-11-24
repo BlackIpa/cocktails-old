@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -62,7 +63,7 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public void save(Recipe recipe) {
         System.out.println("We're in: RecipeService save method");
+        recipe.getRecipeIngredients().forEach(recipeIngredient -> recipeIngredient.setRecipes(recipe));
         recipeRepository.save(recipe);
     }
-
 }

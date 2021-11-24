@@ -1,18 +1,10 @@
 package com.cocktails.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name="recipe")
-@ToString
 public class Recipe {
 
     @Id
@@ -45,7 +37,7 @@ public class Recipe {
     @Column(name = "user_created")
     private boolean userCreated;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "recipes")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "recipes")
     private Set<RecipeIngredient> recipeIngredients;
 
     @ManyToMany(mappedBy = "favouriteRecipes")
