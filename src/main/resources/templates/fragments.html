@@ -63,6 +63,23 @@
     </div>
 </header>
 <!-- Pagination start -->
+<div th:fragment="filter-cocktails" class="row" style="height: 70px; background-color: lightgray">
+    <div class="col-md-6">
+        <select th:field="*{ingredients}"
+                name="ingredient"
+                class="form-select col-4 mb-4"
+                aria-label="Default select example">
+            <option th:each="ing : ${ingredients}"
+                    th:value="${ing.ingredientId}"
+                    th:text="${ing.name}"></option>
+        </select>
+    </div>
+    <div class="col-md-6">
+    </div>
+</div>
+<!-- Pagination end -->
+
+<!-- Pagination start -->
 <div th:fragment="pagination" class="container footer-pagination">
     <div class="row">
         <div class="col-md-6"></div>

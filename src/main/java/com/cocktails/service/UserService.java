@@ -13,5 +13,7 @@ public interface UserService {
 
     public void saveUser(User user);
 
-    public void toggleToFavourites(Long recipeId, Long userId);
+    public void toggleToFavourites(Recipe recipe, User user);
+
+    public void addToCustom(Recipe recipe, User user);
 }

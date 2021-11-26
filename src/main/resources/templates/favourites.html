@@ -18,6 +18,20 @@
                                 <p th:text="${recipe.name}" class="card-text text-center"></p>
                             </a>
                         </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="btn-group">
+                                <form action="#"
+                                      th:action="@{'/addToFavourites/{id}'(id = *{recipeId})}"
+                                      th:object="${recipe}" method="POST">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-outline-secondary"
+                                            th:classappend="${#lists.contains(favouriteIds,recipe.recipeId)} ? fav : unfav">
+                                        Fav
+                                    </button>
+                                </form>
+                            </div>
+                            <small class="text-muted">9 mins</small>
+                        </div>
                     </div>
                 </div>
                 <!-- if products empty the display a message -->

@@ -42,7 +42,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/users","/account","/favourites","/custom").authenticated()
+                .antMatchers("/users","/account","/favourites",
+                        "/custom","/create-cocktail","/save-cocktail").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -51,6 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/recipes", true)
                 .failureUrl("/login.html?error=true")
                 .permitAll()
+                .and()
+                .logout().deleteCookies("JSESSIONID")
+                .and()
+                .rememberMe().key("uniqueAndSecret").tokenValiditySeconds(60)
 		        .and()
 				.exceptionHandling().accessDeniedPage("/access-denied");
     }

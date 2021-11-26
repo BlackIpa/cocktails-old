@@ -54,15 +54,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void toggleToFavourites(Long recipeId, Long userId) {
+    public void toggleToFavourites(Recipe recipe, User user) {
         System.out.println("We're in UserService addToFavourites method");
-        Recipe recipe = recipeRepository.getById(recipeId);
-        User user = userRepository.getById(userId);
         System.out.println("Fetched recipe: " + recipe);
         System.out.println("Fetched user: " + user);
 
         // add saving recipe to user favourites
         user.toggleRecipeToFavourites(recipe);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void addToCustom(Recipe recipe, User user) {
+        System.out.println("We're in UserService addToCustom method");
+
+        System.out.println("Fetched recipe: " + recipe);
+        System.out.println("Fetched user: " + user);
+
+        user.addToCustom(recipe);
         userRepository.save(user);
     }
 }

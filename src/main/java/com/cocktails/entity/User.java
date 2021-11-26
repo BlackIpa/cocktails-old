@@ -90,7 +90,7 @@ public class User {
 				'}';
 	}
 
-	// convenience method
+	// convenience methods
     public void toggleRecipeToFavourites(Recipe recipe) {
 		System.out.println("We're in User entity, addRecipeToFavourites helper method");
 
@@ -102,5 +102,9 @@ public class User {
 		}
     }
 
+    public void addToCustom(Recipe recipe) {
+		System.out.println("We're in User entity, addToCustom helper method");
 
+		customRecipes.add(recipe);
+	}
 }

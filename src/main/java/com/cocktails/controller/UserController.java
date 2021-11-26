@@ -56,27 +56,17 @@ public class UserController {
     @GetMapping("/account")
     public String viewUserDetails(Model model) {
         System.out.println("We're in UserController viewUserDetails method");
-        UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
 
-        User user = userService.findById(userDetails.getId());
+        User user = getAuthenticatedUser();
 
         model.addAttribute("user", user);
 
         return "account";
     }
 
-    @PostMapping("/addToFavourites/{id}")
-    public String toggleToFavourites(@ModelAttribute("recipe") Recipe recipe, @PathVariable Long id) {
-        System.out.println("We're in UserController addToFavourites method");
-
+    private User getAuthenticatedUser() {
         UserDetailsImpl userDetails = (UserDetailsImpl) SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-        System.out.println("Recipe id from PathVariable is: " + id);
-//        System.out.println("MODEL ATTRIBUTE RECIPE is " + recipe);
-        System.out.println("User id is: " + userDetails.getId());
-        userService.toggleToFavourites(id, userDetails.getId());
-
-        return "recipes";
+        return userService.findById(userDetails.getId());
     }
 }
