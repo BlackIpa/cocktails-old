@@ -65,16 +65,24 @@ public class RecipeController {
                        Model model) {
 
         List<String> ingredients = ingredientService.getListOfIngredientNames();
-        Ingredient selectedIngredient = ingredientService.findByName(ingredientName);
+        if (ingredientName != null) {
+            Ingredient selectedIngredient = ingredientService.findByName(ingredientName);
 
-        System.out.println("Ingredients list size is: " + ingredients.size());
-        System.out.println("Searched ingredient is: " + ingredientName);
-        System.out.println("Searched ingredient kind is: " + selectedIngredient);
+            List<Recipe> recipes = recipeService.findAll();
+            String temp = "";
+            for (Recipe recipe : recipes) {
+                recipe.getRecipeIngredients();
+                for (RecipeIngredient ri : recipe.getRecipeIngredients()) {
+                    if (ri.getIngredients().getIngredientId() == selectedIngredient.getIngredientId()) {
+                        temp = temp + " - " + recipe.getName();
+                    }
+                }
+            }
+            String ing = temp;
+            model.addAttribute("ing", ing);
+        }
 
-        String ing = ingredientName;
-                model.addAttribute("ingredients", ingredients);
-        model.addAttribute("ing", ing);
-
+        model.addAttribute("ingredients", ingredients);
         return "test";
     }
 
