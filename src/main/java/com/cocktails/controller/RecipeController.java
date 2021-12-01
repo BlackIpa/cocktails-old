@@ -4,10 +4,7 @@ import com.cocktails.dao.IngredientRepository;
 import com.cocktails.dao.UnitRepository;
 import com.cocktails.dto.RecipeDTO;
 import com.cocktails.entity.*;
-import com.cocktails.service.RecipeIngredientService;
-import com.cocktails.service.RecipeMapper;
-import com.cocktails.service.RecipeService;
-import com.cocktails.service.UserService;
+import com.cocktails.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -27,6 +24,7 @@ public class RecipeController {
     private RecipeService recipeService;
     private UserService userService;
     private IngredientRepository ingredientRepository;
+    private IngredientService ingredientService;
     private RecipeIngredientService recipeIngredientService;
     private UnitRepository unitRepository;
     private List<Long> userFavouriteRecipes = new ArrayList<Long>();
@@ -36,12 +34,14 @@ public class RecipeController {
     public RecipeController(RecipeService recipeService,
                             UserService userService,
                             IngredientRepository ingredientRepository,
+                            IngredientService ingredientService,
                             RecipeIngredientService recipeIngredientService,
                             UnitRepository unitRepository,
                             RecipeMapper recipeMapper) {
         this.recipeService = recipeService;
         this.userService = userService;
         this.ingredientRepository = ingredientRepository;
+        this.ingredientService = ingredientService;
         this.recipeIngredientService = recipeIngredientService;
         this.unitRepository = unitRepository;
         this.recipeMapper = recipeMapper;
@@ -60,33 +60,58 @@ public class RecipeController {
         return "index";
     }
 
+    @GetMapping("/test")
+    public String test(@RequestParam(required = false) String ingredientName,
+                       Model model) {
+
+        List<String> ingredients = ingredientService.getListOfIngredientNames();
+        Ingredient selectedIngredient = ingredientService.findByName(ingredientName);
+
+        System.out.println("Ingredients list size is: " + ingredients.size());
+        System.out.println("Searched ingredient is: " + ingredientName);
+        System.out.println("Searched ingredient kind is: " + selectedIngredient);
+
+        String ing = ingredientName;
+                model.addAttribute("ingredients", ingredients);
+        model.addAttribute("ing", ing);
+
+        return "test";
+    }
+
+
     @GetMapping("/recipes")
     public String findRecipes(@RequestParam(required = false) String name,
-                                @RequestParam(defaultValue = "0") int page,
-                                @RequestParam(defaultValue = "6") int size,
-                                Principal currentUser,
-                                Model model) {
+                              @RequestParam(required = false) String ingredient,
+                              Principal currentUser,
+                              Model model) {
+
+        List<Recipe> recipes = new ArrayList<>();
+        List<Ingredient> ingredients = ingredientRepository.findAll();
+        model.addAttribute("ingredients", ingredients);
+
+        System.out.println("Ingredient: " + ingredient);
+
+//        System.out.println("Custom flag is: " + showCustom);
+
         if (currentUser != null) {
             userFavouriteRecipes = getFavouriteRecipeIds();
         }
         model.addAttribute("favouriteIds", userFavouriteRecipes);
         try {
-            if (name == null) {
-                System.out.println("We're in: RecipeRestController findAll method");
-//                Page<Recipe> recipes = recipeService.findAll(page, size);
-                List<Recipe> recipes = recipeService.findAll();
-                // add to the spring model
-                model.addAttribute("recipes", recipes);
-                return "recipes";
+            if (ingredient != null) {
+                System.out.println("We're in: RecipeRestController findRecipes method - findByIngredient");
+//                recipes = recipeService.findByIngredient();
+            }
+            else if (name == null) {
+                System.out.println("We're in: RecipeRestController findRecipes method - findAll");
+                recipes = recipeService.findAll();
             }
             else {
-                System.out.println("We're in: RecipeRestController findByNameContaining method");
-//                Page<Recipe> recipes = recipeService.findByNameContaining(name, page, size);
-                List<Recipe> recipes = recipeService.findByNameContaining(name);
-                model.addAttribute("recipes", recipes);
-
-                return "recipes";
+                System.out.println("We're in: RecipeRestController findRecipes method - findByNameContaining");
+                recipes = recipeService.findByNameContaining(name);
             }
+            model.addAttribute("recipes", recipes);
+            return "recipes";
         }
         catch (Exception e) {
             return null;
@@ -166,7 +191,6 @@ public class RecipeController {
 
         return "cocktail-form";
     }
-
 
     @PostMapping("/save-cocktail")
     public String saveCocktail(@ModelAttribute("recipe") RecipeDTO recipeDTO) {

@@ -15,6 +15,17 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script type="text/javascript" th:src="@{/js/cocktails.js}"></script>
     <link rel="stylesheet"  href="/css/styles.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script th:inline="javascript">
+  $( function() {
+    var ingredientList = [[${ingredients}]];
+    $( "#ingredientSearch" ).autocomplete({
+      source: ingredientList,
+      minLength: 3
+    });
+  } );
+  </script>
 </th:block>
 </head>
 <body>
@@ -62,22 +73,31 @@
         </div>
     </div>
 </header>
-<!-- Pagination start -->
-<div th:fragment="filter-cocktails" class="row" style="height: 70px; background-color: lightgray">
-    <div class="col-md-6">
-        <select th:field="*{ingredients}"
-                name="ingredient"
-                class="form-select col-4 mb-4"
-                aria-label="Default select example">
-            <option th:each="ing : ${ingredients}"
-                    th:value="${ing.ingredientId}"
-                    th:text="${ing.name}"></option>
-        </select>
+<!-- Cocktails filter pane start -->
+<div th:fragment="filter-cocktails" class="row">
+    <div class="col-md-3">
+        <form th:action="@{/recipes}" method="get">
+<!--            <select th:field="${ingredients}" th:name="ingredients"-->
+<!--                    class="form-select col-4 mb-4" aria-label="Default select example"-->
+<!--                    onchange="filterCocktailsByIngredient()">-->
+<!--&lt;!&ndash;                <option class="text-center" value="">&#45;&#45; Select ingredient &#45;&#45;</option>&ndash;&gt;-->
+<!--                <option class="text-center" th:each="ingredient : ${ingredients}"-->
+<!--                        th:value="${ingredient.name}" th:text="${ingredient.name}"></option>-->
+<!--            </select>-->
+<!--            <button type="submit" class="btn btn-primary btn-sm mb-3">Search</button>-->
+        </form>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-2">
+<!--            <input class="form-check-input" type="checkbox"-->
+<!--                   th:field="${showCustom}"-->
+<!--                   value="" id="mixingIce">-->
+<!--            <label class="form-check-label">-->
+<!--                Show custom cocktails-->
+<!--            </label>-->
     </div>
+
 </div>
-<!-- Pagination end -->
+<!-- Cocktails filter pane end -->
 
 <!-- Pagination start -->
 <div th:fragment="pagination" class="container footer-pagination">
@@ -95,9 +115,9 @@
                 name="ingredient"
                 class="form-select col-4 mb-4"
                 aria-label="Default select example">
-            <option th:each="ing : ${ingredients}"
-                    th:value="${ing.ingredientId}"
-                    th:text="${ing.name}"></option>
+            <option class="text-center" value="">-- Choose ingredient --</option>
+            <option class="text-center" th:each="ing : ${ingredients}"
+                    th:value="${ing.ingredientId}" th:text="${ing.name}"></option>
         </select>
     </div>
     <div class="col-2">
