@@ -60,55 +60,35 @@ public class RecipeController {
         return "index";
     }
 
-    @GetMapping("/test")
-    public String test(@RequestParam(required = false) String ingredientName,
-                       Model model) {
-
-        List<String> ingredients = ingredientService.getListOfIngredientNames();
-        if (ingredientName != null) {
-            Ingredient selectedIngredient = ingredientService.findByName(ingredientName);
-
-            List<Recipe> recipes = recipeService.findAll();
-            String temp = "";
-            for (Recipe recipe : recipes) {
-                recipe.getRecipeIngredients();
-                for (RecipeIngredient ri : recipe.getRecipeIngredients()) {
-                    if (ri.getIngredients().getIngredientId() == selectedIngredient.getIngredientId()) {
-                        temp = temp + " - " + recipe.getName();
-                    }
-                }
-            }
-            String ing = temp;
-            model.addAttribute("ing", ing);
-        }
-
-        model.addAttribute("ingredients", ingredients);
-        return "test";
-    }
-
-
     @GetMapping("/recipes")
     public String findRecipes(@RequestParam(required = false) String name,
-                              @RequestParam(required = false) String ingredient,
+                              @RequestParam(required = false) String ingredientName,
                               Principal currentUser,
                               Model model) {
 
         List<Recipe> recipes = new ArrayList<>();
-        List<Ingredient> ingredients = ingredientRepository.findAll();
-        model.addAttribute("ingredients", ingredients);
-
-        System.out.println("Ingredient: " + ingredient);
-
-//        System.out.println("Custom flag is: " + showCustom);
-
+        List<Long> userFavouriteRecipes = new ArrayList<>();
+        List<String> listOfIngredientNames = ingredientService.getListOfIngredientNames();
+        model.addAttribute("listOfIngredientNames", listOfIngredientNames);
         if (currentUser != null) {
             userFavouriteRecipes = getFavouriteRecipeIds();
+            model.addAttribute("favouriteIds", userFavouriteRecipes);
         }
-        model.addAttribute("favouriteIds", userFavouriteRecipes);
+
+//        shit to mark favourites in red to be added to button with Fav text in recipes and favourite templates
+//        th:classappend="${#lists.contains(favouriteIds,recipe.recipeId)} ? fav : unfav"
         try {
-            if (ingredient != null) {
+            if (ingredientName != null) {
                 System.out.println("We're in: RecipeRestController findRecipes method - findByIngredient");
-//                recipes = recipeService.findByIngredient();
+                Ingredient selectedIngredient = ingredientService.findByName(ingredientName);
+                for (Recipe recipe : recipeService.findAll()) {
+                    recipe.getRecipeIngredients();
+                    for (RecipeIngredient ri : recipe.getRecipeIngredients()) {
+                        if (ri.getIngredients().getIngredientId().equals(selectedIngredient.getIngredientId())) {
+                            recipes.add(recipe);
+                        }
+                    }
+                }
             }
             else if (name == null) {
                 System.out.println("We're in: RecipeRestController findRecipes method - findAll");

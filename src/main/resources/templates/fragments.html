@@ -18,14 +18,14 @@
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script th:inline="javascript">
-  $( function() {
-    var ingredientList = [[${ingredients}]];
-    $( "#ingredientSearch" ).autocomplete({
-      source: ingredientList,
-      minLength: 3
-    });
-  } );
-  </script>
+      $( function() {
+        var ingredientList = [[${listOfIngredientNames}]];
+        $( "#ingredientSearch" ).autocomplete({
+          source: ingredientList,
+          minLength: 1
+        });
+      });
+    </script>
 </th:block>
 </head>
 <body>
@@ -74,9 +74,13 @@
     </div>
 </header>
 <!-- Cocktails filter pane start -->
-<div th:fragment="filter-cocktails" class="row">
+<div th:fragment="filter-cocktails" class="row mb-4">
     <div class="col-md-3">
         <form th:action="@{/recipes}" method="get">
+            <input type="text" id="ingredientSearch" name="ingredientName"
+                   th:value="${ingredientName}"
+                   class="form-control form-control-dark"
+                   placeholder="Type ingredient..." aria-label="Search">
 <!--            <select th:field="${ingredients}" th:name="ingredients"-->
 <!--                    class="form-select col-4 mb-4" aria-label="Default select example"-->
 <!--                    onchange="filterCocktailsByIngredient()">-->

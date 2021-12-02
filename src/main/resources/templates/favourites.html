@@ -24,8 +24,7 @@
                                       th:action="@{'/addToFavourites/{id}'(id = *{recipeId})}"
                                       th:object="${recipe}" method="POST">
                                     <button type="submit"
-                                            class="btn btn-sm btn-outline-secondary"
-                                            th:classappend="${#lists.contains(favouriteIds,recipe.recipeId)} ? fav : unfav">
+                                            class="btn btn-sm btn-outline-secondary fav">
                                         Fav
                                     </button>
                                 </form>
