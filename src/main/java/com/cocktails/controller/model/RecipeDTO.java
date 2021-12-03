@@ -1,4 +1,4 @@
-package com.cocktails.dto;
+package com.cocktails.controller.model;
 
 import com.cocktails.entity.Ingredient;
 import com.cocktails.entity.Unit;

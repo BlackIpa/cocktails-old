@@ -1,5 +1,7 @@
 package com.cocktails.controller;
 
+import com.cocktails.controller.model.RecipeErrorResponse;
+import com.cocktails.exception.RecipeNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;

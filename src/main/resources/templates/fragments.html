@@ -17,15 +17,15 @@
     <link rel="stylesheet"  href="/css/styles.css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <script th:inline="javascript">
-      $( function() {
-        var ingredientList = [[${listOfIngredientNames}]];
-        $( "#ingredientSearch" ).autocomplete({
-          source: ingredientList,
-          minLength: 1
-        });
-      });
-    </script>
+<!--    <script th:inline="javascript">-->
+<!--      $( function() {-->
+<!--        var ingredientList = [[${listOfIngredientNames}]];-->
+<!--        $( "#ingredientSearch" ).autocomplete({-->
+<!--          source: ingredientList,-->
+<!--          minLength: 1-->
+<!--        });-->
+<!--      });-->
+<!--    </script>-->
 </th:block>
 </head>
 <body>
@@ -51,7 +51,7 @@
             <!-- SEARCH BAR AND LOGIN START -->
             <div class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
                 <form th:action="@{/recipes}" method="get">
-                    <input name="name" th:value="${name}" type="text" class="form-control form-control-dark"
+                    <input name="searchedRecipeName" th:value="${searchedRecipeName}" type="text" class="form-control form-control-dark"
                            placeholder="Search for cocktails..." aria-label="Search">
                 </form>
 
@@ -77,8 +77,8 @@
 <div th:fragment="filter-cocktails" class="row mb-4">
     <div class="col-md-3">
         <form th:action="@{/recipes}" method="get">
-            <input type="text" id="ingredientSearch" name="ingredientName"
-                   th:value="${ingredientName}"
+            <input type="text" id="ingredientSearch" name="searchedIngredientName"
+                   th:value="${searchedIngredientName}"
                    class="form-control form-control-dark"
                    placeholder="Type ingredient..." aria-label="Search">
 <!--            <select th:field="${ingredients}" th:name="ingredients"-->

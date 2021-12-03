@@ -1,6 +1,5 @@
 package com.cocktails.controller;
 
-import com.cocktails.entity.Recipe;
 import com.cocktails.entity.User;
 import com.cocktails.entity.UserDetailsImpl;
 import com.cocktails.service.UserService;
@@ -34,14 +33,12 @@ public class UserController {
 
     @PostMapping("/processSignup")
     public String processSignup(User user) {
-
         userService.saveUser(user);
         return "signup-success";
     }
 
     @GetMapping("/users")
     public String getUsers(Model model) {
-    	
         List<User> users = userService.findAll();
         model.addAttribute("users", users);
         return "users";
@@ -49,18 +46,13 @@ public class UserController {
     
     @GetMapping("/login")
     public String viewLoginPage() {
-    	System.out.println("We're in UserController viewLoginPage method");
     	return "login";
     }
 
     @GetMapping("/account")
     public String viewUserDetails(Model model) {
-        System.out.println("We're in UserController viewUserDetails method");
-
         User user = getAuthenticatedUser();
-
         model.addAttribute("user", user);
-
         return "account";
     }
 

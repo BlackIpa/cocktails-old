@@ -1,6 +1,6 @@
-package com.cocktails.service;
+package com.cocktails.service.mapper;
 
-import com.cocktails.dto.RecipeDTO;
+import com.cocktails.controller.model.RecipeDTO;
 import com.cocktails.entity.Recipe;
 import com.cocktails.entity.RecipeIngredient;
 import org.springframework.stereotype.Component;
@@ -12,8 +12,6 @@ import java.util.Set;
 public class RecipeMapper {
 
     public Recipe toRecipe(RecipeDTO recipeDTO) {
-        System.out.println("We're in RecipeMapperController toRecipe method");
-
         Recipe recipe = new Recipe();
         Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 

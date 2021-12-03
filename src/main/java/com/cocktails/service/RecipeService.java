@@ -10,10 +10,8 @@ import java.util.List;
 public interface RecipeService {
 
     public List<Recipe> findAll();
-//    public Page<Recipe> findAll(int page, int size);
 
     public List<Recipe> findByNameContaining(String name);
-//    public Page<Recipe> findByNameContaining(String name, int page, int size);
 
     public Recipe findById(Long theId);
 

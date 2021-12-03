@@ -40,9 +40,6 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "recipes")
     private Set<RecipeIngredient> recipeIngredients;
 
-    @ManyToMany(mappedBy = "favouriteRecipes")
-    Set<User> userFavourite;
-
     public Long getRecipeId() {
         return recipeId;
     }
@@ -114,15 +111,6 @@ public class Recipe {
     public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
         this.recipeIngredients = recipeIngredients;
     }
-
-    public Set<User> getUserFavourite() {
-        return userFavourite;
-    }
-
-    public void setUserFavourite(Set<User> userFavourite) {
-        this.userFavourite = userFavourite;
-    }
-
     public Recipe() {
     }
 }

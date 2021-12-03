@@ -25,6 +25,8 @@
                                               th:object="${recipe}" method="POST">
                                             <button type="submit"
                                                     class="btn btn-sm btn-outline-secondary">
+<!--shit to mark favourites in red to be added to button with Fav text in recipes and favourite templates-->
+<!--th:classappend="${#lists.contains(favouriteIds,recipe.recipeId)} ? fav : unfav"-->
                                                 Fav
                                             </button>
                                         </form>

@@ -20,7 +20,6 @@ public class RecipeIngredientServiceImpl implements RecipeIngredientService {
 
     @Override
     public void save(RecipeIngredient recipeIngredient) {
-        System.out.println("We're in: RecipeService save method");
         recipeIngredientRepository.save(recipeIngredient);
     }
 }

@@ -18,17 +18,12 @@ public class IngredientServiceImpl implements IngredientService {
     }
 
     @Override
-    public List<Ingredient> findByNameContaining(String name) {
-        return null;
-    }
-
-    @Override
     public List<String> getListOfIngredientNames() {
         return ingredientRepository.getListOfIngredientNames();
     }
 
     @Override
     public Ingredient findByName(String name) {
-        return ingredientRepository.findByName(name);
+        return ingredientRepository.findByNameContaining(name);
     }
 }

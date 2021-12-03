@@ -1,4 +1,4 @@
-package com.cocktails.controller;
+package com.cocktails.controller.model;
 
 public class RecipeErrorResponse {
 
